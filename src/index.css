@@ -1,1 +1,344 @@
 @import "tailwindcss";
+
+@theme {
+  --font-display: "Lalezar", "Vazirmatn", system-ui, sans-serif;
+  --font-sans: "Vazirmatn", system-ui, sans-serif;
+
+  --color-ink: #0f1d45;
+  --color-ink-2: #4a5a86;
+  --color-paper: #f3f7fd;
+  --color-line: #d9e5f5;
+  --color-board: #0c1633;
+  --color-blue: #2f6bff;
+  --color-blue-deep: #1c44b8;
+  --color-coral: #ff5d73;
+  --color-teal: #12b5a0;
+  --color-sun: #ffc63a;
+  --color-sky: #41a9e8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-sun);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px dashed var(--color-blue);
+  outline-offset: 3px;
+}
+
+/* ---------- backgrounds ---------- */
+.grid-paper {
+  background-image:
+    linear-gradient(var(--color-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+.chalk-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.noise-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- marker highlight sweep ---------- */
+.marker {
+  position: relative;
+  white-space: nowrap;
+  z-index: 0;
+}
+.marker::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset-inline: -0.12em;
+  bottom: 0.02em;
+  height: 0.38em;
+  border-radius: 3px;
+  background: var(--color-sun);
+  opacity: 0.95;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  animation: marker-sweep 0.7s 0.45s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
+@keyframes marker-sweep {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- marquee ticker ---------- */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- ambient float ---------- */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-16px) rotate(var(--r, 0deg));
+  }
+}
+.floaty {
+  animation: floaty var(--dur, 6s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* ---------- feedback ---------- */
+@keyframes pop {
+  0% {
+    transform: scale(0.9);
+  }
+  55% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.animate-pop {
+  animation: pop 0.35s ease;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(8px);
+  }
+  40% {
+    transform: translateX(-7px);
+  }
+  60% {
+    transform: translateX(5px);
+  }
+  80% {
+    transform: translateX(-3px);
+  }
+}
+.animate-shake {
+  animation: shake 0.4s ease;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-slide-up {
+  animation: slide-up 0.4s ease both;
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+.animate-wiggle {
+  animation: wiggle 0.9s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.85;
+  }
+}
+.animate-pulse-soft {
+  animation: pulse-soft 0.9s ease-in-out infinite;
+}
+
+/* ---------- confetti ---------- */
+@keyframes confetti-burst {
+  to {
+    transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.6);
+    opacity: 0;
+  }
+}
+.confetti-piece {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 13px;
+  border-radius: 2px;
+  animation: confetti-burst 0.85s cubic-bezier(0.15, 0.8, 0.4, 1) forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes confetti-fall {
+  from {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(110vh) rotate(680deg);
+    opacity: 0.85;
+  }
+}
+.confetti-rain {
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 14px;
+  border-radius: 2px;
+  animation: confetti-fall var(--dur, 2.4s) linear var(--delay, 0s) forwards;
+}
+
+/* ---------- flip cards ---------- */
+.flip {
+  perspective: 1200px;
+}
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.35, 0.1, 0.2, 1);
+}
+.flip.flipped .flip-inner,
+.flip:hover .flip-inner {
+  transform: rotateY(180deg);
+}
+.flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+/* ---------- tilted sticky notes ---------- */
+.tilt {
+  transform: rotate(var(--rot, 0deg));
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.35s ease;
+}
+.tilt:hover {
+  transform: rotate(0deg) translateY(-6px);
+}
+
+/* ---------- buttons ---------- */
+.btn-arcade {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+  box-shadow: 0 5px 0 0 var(--shadow-c, var(--color-blue-deep));
+}
+.btn-arcade:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 0 var(--shadow-c, var(--color-blue-deep));
+}
+.btn-arcade:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 0 var(--shadow-c, var(--color-blue-deep));
+}
+
+/* ---------- squiggly underline ---------- */
+.squiggle {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='7' viewBox='0 0 40 7'%3E%3Cpath d='M0 5 Q 5 1 10 5 T 20 5 T 30 5 T 40 5' fill='none' stroke='%23ff5d73' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 40px 7px;
+  padding-bottom: 10px;
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track,
+  .floaty,
+  .animate-wiggle,
+  .animate-pulse-soft {
+    animation: none;
+  }
+  .marker::after {
+    animation: none;
+    transform: scaleX(1);
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .flip-inner {
+    transition: none;
+  }
+  .confetti-piece,
+  .confetti-rain {
+    display: none;
+  }
+  .btn-arcade,
+  .tilt {
+    transition: none;
+  }
+}
