@@ -16,7 +16,13 @@ const ACC: Record<Topic["accent"], { border: string; blob: string; icon: string;
 const DIFF: Record<number, string> = { 1: "ساده", 2: "متوسط", 3: "چالشی" };
 const ROTS = ["-1.1deg", "0.9deg", "-0.4deg"];
 
-export default function TopicGrid({ onStart }: { onStart: (topicId: string, mode: Mode) => void }) {
+export default function TopicGrid({
+  onStart,
+  onLesson,
+}: {
+  onStart: (topicId: string, mode: Mode) => void;
+  onLesson: (topicId: string) => void;
+}) {
   const [filter, setFilter] = useState<"all" | "math" | "science">("all");
   const shown = TOPICS.filter((t) => filter === "all" || t.subject === filter);
 
@@ -83,10 +89,16 @@ export default function TopicGrid({ onStart }: { onStart: (topicId: string, mode
                   <p className="mt-4 text-xs font-bold text-ink-2">{t.chapter}</p>
                   <h3 className="mt-1 font-display text-[22px] leading-8 text-ink">{t.title}</h3>
                   <p className="mt-2 flex-1 text-sm leading-7 text-ink-2">{t.desc}</p>
-                  <div className="mt-4 flex items-center justify-between border-t border-dashed border-ink/15 pt-4">
-                    <span className={`rounded-full px-3 py-1 text-xs font-bold ${acc.chip}`}>
+                  <div className="mt-4 flex items-center gap-2 border-t border-dashed border-ink/15 pt-4">
+                    <span className={`me-auto rounded-full px-3 py-1 text-xs font-bold ${acc.chip}`}>
                       {fa(t.questions.length)} سوال • {DIFF[t.difficulty]}
                     </span>
+                    <button
+                      onClick={() => onLesson(t.id)}
+                      className="inline-flex items-center gap-1 rounded-lg border-2 border-ink/12 px-3 py-1.5 text-[13px] font-bold text-ink-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-teal hover:text-teal"
+                    >
+                      درسنامه
+                    </button>
                     <button
                       onClick={() => onStart(t.id, "normal")}
                       className="inline-flex items-center gap-1.5 rounded-lg bg-ink px-4 py-2 text-sm font-bold text-paper transition-all duration-200 hover:bg-blue hover:shadow-[3px_3px_0_rgba(47,107,255,0.45)] active:translate-y-0.5"

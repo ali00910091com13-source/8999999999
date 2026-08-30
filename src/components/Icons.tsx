@@ -216,6 +216,75 @@ export const IconLogo: FC<IconProps> = ({ className }) => (
   </svg>
 );
 
+export const IconBubble: FC<IconProps> = ({ className }) => (
+  <svg {...base(className)}>
+    <circle cx="9" cy="9" r="3.4" />
+    <circle cx="16.5" cy="13.5" r="2.3" />
+    <circle cx="8" cy="17.5" r="1.7" />
+    <circle cx="17.5" cy="5.5" r="1.2" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+export const IconHand: FC<IconProps> = ({ className }) => (
+  <svg {...base(className)}>
+    <path d="M8 12.5V6.8a1.4 1.4 0 012.8 0v4.7" />
+    <path d="M10.8 11V4.9a1.4 1.4 0 012.8 0V11" />
+    <path d="M13.6 11V6.2a1.4 1.4 0 012.8 0v6.3" />
+    <path d="M16.4 12.5v-1.3a1.4 1.4 0 012.8 0v4.3a6.5 6.5 0 01-6.5 6.5h-1.4a6.5 6.5 0 01-6.5-6.5v-2.9a1.4 1.4 0 012.8 0" />
+  </svg>
+);
+
+export const IconHeart: FC<IconProps> = ({ className }) => (
+  <svg {...base(className)}>
+    <path d="M12 20.5S4.5 16 2.9 11.4C1.8 8.2 3.8 5 7 5c2 0 3.6 1.1 5 3.2C13.4 6.1 15 5 17 5c3.2 0 5.2 3.2 4.1 6.4C19.5 16 12 20.5 12 20.5z" />
+    <path d="M5 11.5h3.2l1.3-2 2 3.5 1.3-1.5H16" opacity=".6" />
+  </svg>
+);
+
+export const IconGear: FC<IconProps> = ({ className }) => (
+  <svg {...base(className)}>
+    <circle cx="12" cy="12" r="4.4" />
+    <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
+    <path d="M12 2.8v2.6M12 18.6v2.6M2.8 12h2.6M18.6 12h2.6M5.5 5.5l1.8 1.8M16.7 16.7l1.8 1.8M18.5 5.5l-1.8 1.8M7.3 16.7l-1.8 1.8" />
+  </svg>
+);
+
+export const IconMagnet: FC<IconProps> = ({ className }) => (
+  <svg {...base(className)}>
+    <path d="M5.5 3.5h4.2V11a2.3 2.3 0 004.6 0V3.5h4.2V11a6.5 6.5 0 01-13 0z" />
+    <path d="M5.5 8h4.2M14.3 8h4.2" />
+  </svg>
+);
+
+export const IconWave: FC<IconProps> = ({ className }) => (
+  <svg {...base(className)}>
+    <path d="M2.5 12q2.35-7.5 4.75 0t4.75 0 4.75 0 4.75 0" />
+    <path d="M4 18.5q2-3.5 4 0t4 0 4 0" opacity=".5" />
+  </svg>
+);
+
+export const IconFish: FC<IconProps> = ({ className }) => (
+  <svg {...base(className)}>
+    <path d="M2.5 12S6 6.5 12 6.5c3.8 0 6.8 2.4 9.5 5.5-2.7 3.1-5.7 5.5-9.5 5.5-6 0-9.5-5.5-9.5-5.5z" />
+    <circle cx="8.5" cy="11" r="0.9" fill="currentColor" stroke="none" />
+    <path d="M12.5 8.5c-1 2.3-1 4.7 0 7" opacity=".5" />
+  </svg>
+);
+
+export const IconLeaf: FC<IconProps> = ({ className }) => (
+  <svg {...base(className)}>
+    <path d="M5 19.5C5 9.5 12 5 20.5 4c-1 8.5-5.5 15.5-15.5 15.5z" />
+    <path d="M5 19.5c2.8-5.8 6.8-9 11-11.5" opacity=".6" />
+  </svg>
+);
+
+export const IconHex: FC<IconProps> = ({ className }) => (
+  <svg {...base(className)}>
+    <path d="M12 2.5l8.2 4.75v9.5L12 21.5l-8.2-4.75v-9.5z" />
+    <path d="M12 12L3.8 7.25M12 12l8.2-4.75M12 12v9.5" opacity=".5" />
+  </svg>
+);
+
 export const TOPIC_ICONS: Record<string, FC<IconProps>> = {
   sigma: IconSigma,
   power: IconPower,
@@ -231,4 +300,14 @@ export const TOPIC_ICONS: Record<string, FC<IconProps>> = {
   plug: IconPlug,
   circle: IconCircle,
   timer: IconTimer,
+  bubble: IconBubble,
+  brain: IconBrain,
+  hand: IconHand,
+  heart: IconHeart,
+  gear: IconGear,
+  magnet: IconMagnet,
+  wave: IconWave,
+  fish: IconFish,
+  leaf: IconLeaf,
+  hex: IconHex,
 };

@@ -140,7 +140,7 @@ function QuickQuiz() {
           <p className="font-display text-2xl text-ink">
             {streak >= 4 ? "ایول! دستت گرمه!" : "خوب بود! حالا بریم سراغ اصلِ مطلب!"}
           </p>
-          <p className="mt-2 text-sm text-ink-2">۷۸ سوالِ دیگه اون تو منتظرته…</p>
+          <p className="mt-2 text-sm text-ink-2">بیش از ۱۴۰ سوالِ دیگه اون تو منتظرته…</p>
           <a
             href="#quiz"
             className="btn-arcade mt-5 inline-flex items-center gap-2 rounded-lg bg-ink px-6 py-3 font-bold text-paper"
@@ -185,8 +185,8 @@ export default function Masthead({ onSpeed }: { onSpeed: () => void }) {
           </Reveal>
           <Reveal delay={180}>
             <p className="mt-6 max-w-xl text-lg leading-9 text-ink-2">
-              ۷۸ سوال تعاملی از ۱۳ فصل کتاب، دوئل ۶۰ ثانیه‌ای با زمان، کارت‌های فرمول،
-              دانستنی‌های عجیب و چیستان. خبری از حفظ‌کردن نیست — فقط بزن و حال کن!
+              ۱۴۴ سوال تستی و ۳۹ سوال تشریحی از همهٔ ۲۴ فصل کتاب، درسنامهٔ کامل با مثال حل‌شده،
+              آزمون چاپی، دوئل ۶۰ ثانیه‌ای، گنجینهٔ دانشمندان و کلی چیز باحال. فقط بزن و حال کن!
             </p>
           </Reveal>
           <Reveal delay={260}>
@@ -208,9 +208,9 @@ export default function Masthead({ onSpeed }: { onSpeed: () => void }) {
           <Reveal delay={330}>
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
               {[
-                ["۷۸", "سوال"],
-                ["۱۳", "فصل"],
-                ["۲", "حالت بازی"],
+                ["۱۴۴", "سوال تستی"],
+                ["۳۹", "تشریحی"],
+                ["۲۴", "درسنامه"],
                 ["۸", "مدال"],
               ].map(([n, l]) => (
                 <div key={l} className="flex items-baseline gap-2">

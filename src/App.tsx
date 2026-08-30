@@ -2,9 +2,14 @@ import { useState } from "react";
 import BadgeWall from "./components/BadgeWall";
 import FunZone from "./components/FunZone";
 import { IconBolt, IconLogo } from "./components/Icons";
+import Knowledge from "./components/Knowledge";
+import LessonNotes from "./components/LessonNotes";
 import Masthead from "./components/Masthead";
 import QuizArena, { type Session } from "./components/QuizArena";
 import TopicGrid, { type Mode } from "./components/TopicGrid";
+import WrittenExam from "./components/WrittenExam";
+import { EXAMS } from "./data/exams";
+import { LESSONS } from "./data/lessons";
 import { makeSpeedTopic, TOPICS, type Question } from "./data/questions";
 import { fa, shuffle, useProgress } from "./lib/helpers";
 
@@ -16,14 +21,18 @@ function scramble(q: Question): Question {
 const NAV = [
   { href: "#topics", label: "فصل‌ها" },
   { href: "#quiz", label: "سالن تمرین" },
-  { href: "#fun", label: "ایستگاه باحال" },
-  { href: "#badges", label: "دیوار افتخار" },
+  { href: "#lessons", label: "درسنامه" },
+  { href: "#exam", label: "آزمون تشریحی" },
+  { href: "#knowledge", label: "گنجینه" },
+  { href: "#fun", label: "باحال" },
+  { href: "#badges", label: "افتخار" },
 ];
 
 export default function App() {
   const { progress, record, reset } = useProgress();
   const [session, setSession] = useState<Session | null>(null);
   const [sessionKey, setSessionKey] = useState(0);
+  const [lessonId, setLessonId] = useState(LESSONS[0].id);
 
   const startQuiz = (topicId: string, mode: Mode) => {
     if (mode === "speed" || topicId === "speed") {
@@ -38,6 +47,12 @@ export default function App() {
     window.setTimeout(() => document.getElementById("quiz")?.scrollIntoView(), 60);
   };
 
+  const openLesson = (topicId: string) => {
+    const lesson = LESSONS.find((l) => l.id === topicId);
+    if (lesson) setLessonId(lesson.id);
+    window.setTimeout(() => document.getElementById("lessons")?.scrollIntoView(), 60);
+  };
+
   const nextRandom = () => {
     const pool = session && session.topic.id !== "speed" ? TOPICS.filter((t) => t.id !== session.topic.id) : TOPICS;
     const pick = pool[Math.floor(Math.random() * pool.length)];
@@ -50,20 +65,20 @@ export default function App() {
 
       {/* ---------- header ---------- */}
       <nav className="sticky top-0 z-50 border-b-2 border-ink/10 bg-paper/90 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3">
           <a href="#" className="flex items-center gap-3">
             <IconLogo className="h-10 w-10 text-blue" />
             <span className="leading-none">
               <span className="block font-display text-[26px] text-ink">هشت‌ضلعی</span>
-              <span className="block text-[11px] font-bold text-ink-2">باشگاه تمرین پایهٔ هشتم</span>
+              <span className="hidden text-[11px] font-bold text-ink-2 sm:block">باشگاه تمرین پایهٔ هشتم</span>
             </span>
           </a>
-          <div className="hidden items-center gap-1 md:flex">
+          <div className="hidden items-center gap-0.5 lg:flex">
             {NAV.map((n) => (
               <a
                 key={n.href}
                 href={n.href}
-                className="rounded-lg px-4 py-2 text-sm font-bold text-ink-2 transition-colors hover:bg-white hover:text-blue"
+                className="rounded-lg px-3 py-2 text-[13.5px] font-bold text-ink-2 transition-colors hover:bg-white hover:text-blue"
               >
                 {n.label}
               </a>
@@ -78,11 +93,18 @@ export default function App() {
             {fa(progress.xp)} XP
           </span>
         </div>
+        <div className="flex gap-1 overflow-x-auto border-t border-ink/5 px-3 py-1.5 lg:hidden">
+          {NAV.map((n) => (
+            <a key={n.href} href={n.href} className="whitespace-nowrap rounded-lg px-3 py-1.5 text-[13px] font-bold text-ink-2">
+              {n.label}
+            </a>
+          ))}
+        </div>
       </nav>
 
       {/* ---------- sections ---------- */}
       <Masthead onSpeed={() => startQuiz("speed", "speed")} />
-      <TopicGrid onStart={startQuiz} />
+      <TopicGrid onStart={startQuiz} onLesson={openLesson} />
       <QuizArena
         key={sessionKey}
         session={session}
@@ -92,6 +114,9 @@ export default function App() {
         onSpeed={() => startQuiz("speed", "speed")}
         onRecord={record}
       />
+      <LessonNotes lessonId={lessonId} onSelect={setLessonId} onQuiz={(id) => startQuiz(id, "normal")} />
+      <WrittenExam onRecord={record} />
+      <Knowledge />
       <FunZone />
       <BadgeWall progress={progress} onReset={reset} />
 
@@ -126,9 +151,9 @@ export default function App() {
           <div>
             <h4 className="font-display text-xl text-sun">یه مشت عدد</h4>
             <ul className="mt-4 space-y-2.5 text-paper/70">
-              <li><span className="font-display text-lg text-paper">{fa(78)}</span> سوال تعاملی</li>
-              <li><span className="font-display text-lg text-paper">{fa(13)}</span> فصل از کتاب هشتم</li>
-              <li><span className="font-display text-lg text-paper">{fa(10)}</span> کارت فرمول جادویی</li>
+              <li><span className="font-display text-lg text-paper">{fa(TOPICS.length * 6)}</span> سوال تستی تعاملی</li>
+              <li><span className="font-display text-lg text-paper">{fa(EXAMS.length)}</span> سوال تشریحی امتحانی</li>
+              <li><span className="font-display text-lg text-paper">{fa(LESSONS.length)}</span> درسنامهٔ کامل فصل‌به‌فصل</li>
               <li><span className="font-display text-lg text-paper">{fa(8)}</span> مدال برای فتح</li>
             </ul>
           </div>
